@@ -1,0 +1,107 @@
+@import "tailwindcss";
+
+@theme {
+  --font-display: 'Outfit', system-ui, sans-serif;
+  --font-sans: 'Plus Jakarta Sans', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+
+  --color-canvas: #F2F5F7;
+  --color-surface: #FAFBFC;
+  --color-subtle: #E7EDF1;
+  --color-ink: #0E1722;
+  --color-ink-secondary: #445263;
+  --color-ink-muted: #5A697B;
+  --color-hairline: #CFD8E1;
+  --color-hairline-strong: #9FB0C2;
+  --color-emerald-notary: #0A7E4F;
+  --color-emerald-notary-hover: #08653F;
+  --color-emerald-soft: #E6F4ED;
+  --color-status-pending: #B45309;
+  --color-status-pending-bg: #FEF3C7;
+  --color-status-invalid: #B91C1C;
+  --color-status-invalid-bg: #FEE2E2;
+}
+
+@layer base {
+  html {
+    color-scheme: light;
+    background-color: var(--color-canvas);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    font-size: 15px;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    margin: 0;
+    min-height: 100dvh;
+    background-color: var(--color-canvas);
+    background-image:
+      radial-gradient(900px 520px at 8% -6%, rgba(10, 126, 79, 0.065), transparent 68%),
+      radial-gradient(700px 440px at 94% 100%, rgba(14, 23, 34, 0.045), transparent 65%);
+    background-attachment: fixed;
+    overflow-x: hidden;
+  }
+
+  h1, h2, h3, h4 {
+    font-family: var(--font-display);
+    text-wrap: balance;
+    color: var(--color-ink);
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  ::selection {
+    background-color: rgba(10, 126, 79, 0.18);
+    color: #0E1722;
+  }
+
+  input, textarea, select {
+    caret-color: #0A7E4F;
+  }
+
+  button, a, input, textarea, select, summary {
+    touch-action: manipulation;
+  }
+
+  :focus-visible {
+    outline: 2px solid #0A7E4F;
+    outline-offset: 2px;
+  }
+}
+
+.notary-floating-shadow {
+  box-shadow:
+    0 1px 2px rgba(14, 23, 34, 0.06),
+    0 12px 28px -10px rgba(14, 23, 34, 0.10);
+}
+
+.press-tactile {
+  transition-property: background-color, border-color, color, transform, opacity;
+  transition-duration: 140ms;
+  transition-timing-function: cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.press-tactile:active:not(:disabled) {
+  transform: scale(0.97);
+}
+
+.crypto-token {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  overflow-wrap: anywhere;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .press-tactile:active:not(:disabled) {
+    transform: none;
+  }
+}
