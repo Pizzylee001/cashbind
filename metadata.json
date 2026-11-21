@@ -1,0 +1,6 @@
+{
+  "name": "CashBind",
+  "description": "Self-sovereign cryptographic bridge binding Bitcoin Cash mainnet addresses and Nostr identities with OP_RETURN anchoring, WizardConnect wallet signing, stateless challenge auth, portable attestations, and direct BCH payments.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
