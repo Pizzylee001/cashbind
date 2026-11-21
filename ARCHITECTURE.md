@@ -41,9 +41,9 @@ CashBind stores zero user identities, keys, or attestations on any centralized s
 - **Immutability & Timestamping:** Optional 46-byte `OP_RETURN` digests are anchored directly into Bitcoin Cash mainnet blocks and audited against live Fulcrum nodes.
 - **Local Vault:** The browser caches public signed bundles and attestations in `localStorage` for fast offline inspection. Private keys (`WIF` and `nsec`) are **never** written to `localStorage` or transmitted to `server.ts`.
 
-## 3. Stateless Fulcrum Proxy (`server.ts`)
+## 3. Stateless Fulcrum Proxy (`src/server/fulcrum.ts`, `server.ts`, `api/bch/*`)
 
-Browsers cannot open raw TLS sockets (`50002`) to Fulcrum ElectrumX nodes directly. `server.ts` provides five stateless read/broadcast routes with automatic node failover across `bch.imaginary.cash:50002` (TLS), `bch.loping.net:50002` (TLS), and `wss://fulcrum.greyh.at:50004` (WSS):
+Browsers cannot open raw TLS sockets (`50002`) to Fulcrum ElectrumX nodes directly. The shared Fulcrum client (`src/server/fulcrum.ts`) powers both the local Express server (`server.ts`) and Vercel Node serverless functions (`api/bch/*`) with automatic failover across `bch.imaginary.cash:50002` (TLS), `bch.loping.net:50002` (TLS), and `wss://fulcrum.greyh.at:50004` (WSS):
 
 - `GET /api/bch/status`: Live mainnet block height and active Fulcrum server version.
 - `GET /api/bch/address/:address`: Confirmed/unconfirmed balance, spendable UTXOs, and tx history for a CashAddress.

@@ -153,6 +153,16 @@ npm run dev
 
 Open `http://localhost:3000`.
 
+### Deploy to Vercel
+
+CashBind is pre-configured for zero-environment-variable deployment on **Vercel**:
+
+- `vercel.json` builds the Vite SPA into `dist/`, rewrites client-side routes (`/bind`, `/verify`, `/vault`) cleanly to `index.html`, and configures a 25-second timeout for Fulcrum failover queries.
+- Serverless API functions under `api/bch/` (`status.ts`, `address/[address].ts`, `tx/[txid].ts`, `scan-commitments/[address].ts`, `broadcast.ts`) share the exact same Fulcrum mainnet failover module (`src/server/fulcrum.ts`) used in local development.
+- No secrets or API keys are required in Vercel environment variables.
+
+Import `https://github.com/Pizzylee001/cashbind` in Vercel and click **Deploy**.
+
 ### Scripts
 
 | Command | Description |
