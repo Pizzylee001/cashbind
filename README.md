@@ -4,35 +4,33 @@
 
 Built for **BCH BLAZE 2026** (Mainnet Track and the Paytaca Decentralized Identity Bounty).
 
-- **Live App:** https://ais-pre-vimv666ydugm5ma6iv5mvi-1004805565289.europe-west2.run.app
-- **Live Presentation Deck:** [`/deck.html`](./public/deck.html) (hosted at `/deck.html` on deployment)
-- **Google Slides Importable Deck (`.pptx`):** [`docs/CashBind-BLAZE-2026-Deck.pptx`](./docs/CashBind-BLAZE-2026-Deck.pptx)
+- **Live App:** https://cashbind.vercel.app
+- **Interactive Presentation Deck:** https://cashbind.vercel.app/deck.html
+- **Google Slides / PowerPoint Deck (`.pptx`):** [`docs/CashBind-BLAZE-2026-Deck.pptx`](./docs/CashBind-BLAZE-2026-Deck.pptx)
 - **Source Repository:** https://github.com/Pizzylee001/cashbind
-- **Protocol Specification:** [`PROTOCOL.md`](./PROTOCOL.md)
-- **Architecture & Threat Model:** [`ARCHITECTURE.md`](./ARCHITECTURE.md)
-- **Presentation Copy:** [`WIDGET_FACTORY_PITCH.md`](./WIDGET_FACTORY_PITCH.md)
+- **License:** [MIT](./LICENSE)
 
 ---
 
-## Why CashBind Exists
+## Overview
 
-Merchants, creators, and developers on Nostr already own portable cryptographic identities (`npub`), but accepting Bitcoin Cash still forces payers to trust bio screenshots, centralized handle directories, or domain registrars that can be silently hijacked.
+Merchants, creators, and developers on Nostr already own portable cryptographic identities (`npub`), yet accepting Bitcoin Cash still forces payers to trust bio screenshots, centralized handle directories, or domain registrars that can be silently hijacked.
 
-CashBind solves this with a zero-trust cryptographic notary:
+CashBind replaces trust in intermediaries with a zero-trust cryptographic notary:
 
 1. **Strict Key Separation (Zero Key Reuse):** A Bitcoin Cash `secp256k1` payment key and an independent Nostr BIP-340 Schnorr identity key cross-sign the exact same canonical JSON binding payload. Reusing the same keypair across BCH and Nostr is rejected at both creation and verification time.
 2. **Bitcoin Cash Mainnet `OP_RETURN` Anchoring:** Commits a compact 46-byte digest (`OP_RETURN CASHBIND v1 <32-byte-sha256>`) to Bitcoin Cash mainnet using **WizardConnect** (`@wizardconnect/react` + `@wizardconnect/dapp`) or a local WIF key over live Fulcrum ElectrumX nodes.
 3. **Zero Central Registry:** Bindings and third-party attestations publish directly from the browser to independent public Nostr relays (`wss://relay.damus.io`, `wss://nos.lol`, `wss://relay.primal.net`) and verify offline or against BCH mainnet blocks.
-4. **Verify-Before-Pay Protection:** Before routing BCH to a Nostr identity, CashBind runs all 5 cryptographic checks locally. Tampering with even a single byte immediately fractures the Notary Seal and locks mainnet payment execution.
-5. **Stateless Challenge-Response Auth:** Applications can authenticate any CashBind user with a one-time expiring nonce signed by either their bound Nostr key (NIP-42) or their bound BCH key (Bitcoin Signed Message).
-6. **Portable Attestations, Key Rotation & W3C `did:nostr`:** Independent third-party issuers can sign verifiable Schnorr attestations targeting any binding hash, users can rotate keys with unbroken cryptographic lineage (`prevBindingHash` / `prevTxid`), and any binding exports as a standards-compliant W3C `did:nostr` JSON-LD document.
+4. **Verify-Before-Pay Protection:** Before routing BCH to a Nostr identity, CashBind runs all 5 cryptographic checks locally. Mutating even a single byte fractures the Notary Seal and locks mainnet payment execution automatically.
+5. **Stateless Challenge-Response Authentication:** Any application can authenticate a CashBind user with a one-time expiring nonce signed by either their bound Nostr key (NIP-42) or their bound BCH key (Bitcoin Signed Message).
+6. **Portable Attestations, Key Rotation & W3C `did:nostr`:** Independent issuers sign verifiable Schnorr attestations targeting any binding hash, users rotate keys with unbroken cryptographic lineage (`prevBindingHash` / `prevTxid`), and any binding exports as a standards-compliant W3C `did:nostr` JSON-LD document.
 
 ---
 
 ## Application Screenshots
 
 ### 1. Live Mainnet Registry & Discovery (`/`)
-Displays live Bitcoin Cash mainnet block height and Fulcrum node health, multi-relay Nostr `kind:30078` discovery, search and source filtering, the mandatory BCH BLAZE 2026 submission banner, and a slide-over cryptographic proof inspector.
+Displays live Bitcoin Cash mainnet block height and Fulcrum node health, multi-relay Nostr `kind:30078` discovery, search and source filtering, instant local test-proof generation, and a slide-over cryptographic proof inspector.
 
 ![CashBind Registry Home](docs/screenshots/01-registry-home.png)
 
@@ -41,7 +39,7 @@ Supports local keys, WIF/`nsec` import, NIP-07 browser extensions (Alby, nos2x),
 
 ![CashBind Bind and Anchor Studio](docs/screenshots/02-bind-anchor.png)
 
-### 3. Independent Cryptographic Verification, Stateless Auth & Direct BCH Payments (`/verify`)
+### 3. Independent Verification, Stateless Auth & Direct BCH Payments (`/verify`)
 Resolves any `npub1...`, `bitcoincash:q...`, binding digest, BCH mainnet txid, or raw CashBind JSON bundle. Runs 5 offline cryptographic checks plus live Fulcrum `OP_RETURN` auditing, stateless challenge authentication, BIP-21 payment URI generation, and live BCH mainnet payments with 546-satoshi dust-limit protection.
 
 ![CashBind Verify and Pay Desk](docs/screenshots/03-verify-pay.png)
@@ -60,14 +58,14 @@ Independent issuers sign and publish portable Schnorr attestations to public Nos
 
 ## BCH BLAZE 2026 & Paytaca Bounty Alignment
 
-| Requirement | How CashBind Delivers It |
+| Requirement | Implementation in CashBind |
 | :--- | :--- |
 | **WizardConnect Integration** | Native `@wizardconnect/react` + `@wizardconnect/dapp` pairing with Paytaca, Selene, and Cashonize for non-custodial mainnet `OP_RETURN` anchoring and verified BCH payments. |
 | **Real BCH Mainnet Utility** | Live Fulcrum proxy (`bch.imaginary.cash:50002`, `bch.loping.net:50002`, `wss://fulcrum.greyh.at:50004`) reads mainnet block height, UTXOs, `OP_RETURN` outputs, and broadcasts signed `SIGHASH_FORKID` transactions. |
-| **Strict Distinct Keys (Paytaca Bounty)** | Rejects any binding where BCH compressed pubkey and Nostr x-only pubkey share the same secp256k1 x-coordinate (`areKeysDistinct`). |
+| **Strict Distinct Keys** | Rejects any binding where BCH compressed pubkey and Nostr x-only pubkey share the same `secp256k1` x-coordinate (`areKeysDistinct`). |
 | **Zero-Trust Verification & Auth** | Offline 5-check verifier (`verifyBindingBundle`), live on-chain `OP_RETURN` matcher (`verifyOnChainCommitment`), and expiring stateless challenge auth (`verifyAuthChallengeResponse`). |
 | **Key Rotation & Portability** | Verifiable predecessor chain (`verifyRotationChain`), portable third-party Nostr attestations (`createSignedAttestation`), and W3C `did:nostr` JSON-LD export (`exportDidNostrDocument`). |
-| **Commercial & Ecosystem Value** | Enables verifiable BCH merchant/creator payment handles and paid third-party attestation directories settled directly on Bitcoin Cash mainnet. |
+| **Commercial & Ecosystem Value** | Enables verifiable BCH merchant and creator payment handles plus paid third-party attestation directories settled directly on Bitcoin Cash mainnet. |
 
 ---
 
@@ -79,11 +77,11 @@ Browser Client (React 19 + TypeScript + Vite)
  ├── src/lib/bchTx.ts           BCH mainnet P2PKH + OP_RETURN tx builder (SIGHASH_FORKID)
  ├── src/lib/wizardConnect.tsx  WizardConnect QR pairing & non-custodial tx signing
  ├── src/lib/nostrNetwork.ts    Direct parallel WebSockets to public Nostr relays
- └── src/lib/storage.ts         Local vault for public signed proofs (no secrets stored)
+ └── src/lib/storage.ts         Local vault for public signed proofs (no private keys stored)
         │                                          │
         │ Direct WSS (kind:30078)                  │ HTTPS /api/bch/*
         ▼                                          ▼
-Public Nostr Relays                        Express Fulcrum Proxy (server.ts)
+Public Nostr Relays                        Fulcrum Mainnet Proxy (Express / Vercel Functions)
  ├── wss://relay.damus.io                   ├── GET  /api/bch/status
  ├── wss://nos.lol                          ├── GET  /api/bch/address/:address
  └── wss://relay.primal.net                 ├── GET  /api/bch/tx/:txid
@@ -97,14 +95,26 @@ Public Nostr Relays                        Express Fulcrum Proxy (server.ts)
                                             └── wss://fulcrum.greyh.at:50004 (WSS)
 ```
 
-Private keys (`WIF` and `nsec`) remain strictly in browser memory and are never saved to `localStorage` or sent to `server.ts`.
+Private keys (`WIF` and `nsec`) remain strictly in browser memory and are never saved to `localStorage` or transmitted to any backend route.
 
 ---
 
-## 2-Minute Judge Walkthrough
+## API Endpoints (`/api/bch/*`)
 
-1. **Inspect Live Infrastructure (`/`):** Open the home page to view live BCH mainnet block height from Fulcrum and public Nostr relay reachability. Click **Generate Live Test Proof** to inspect a genuine dual-signed identity immediately.
-2. **Test Distinct Keys & Cross-Sign (`/bind`):** Click **Test Key-Reuse Rejection** to confirm key separation, enter a handle, click **Cross-Sign Dual Proof**, and publish to public Nostr relays.
+| Method & Path | Description |
+| :--- | :--- |
+| `GET /api/bch/status` | Queries live BCH mainnet block height and active Fulcrum node health. |
+| `GET /api/bch/address/:address` | Fetches confirmed/unconfirmed balance and spendable UTXOs for any valid CashAddress. |
+| `GET /api/bch/tx/:txid` | Fetches decoded mainnet transaction details, confirmations, and parsed `CASHBIND` `OP_RETURN` commitments. |
+| `GET /api/bch/scan-commitments/:address` | Scans mainnet transaction history for an address to auto-discover CashBind `OP_RETURN` anchor txids. |
+| `POST /api/bch/broadcast` | Broadcasts a signed raw Bitcoin Cash mainnet transaction hex (`{ rawTxHex }`) over Fulcrum failover. |
+
+---
+
+## 2-Minute Walkthrough
+
+1. **Inspect Live Infrastructure (`/`):** Open https://cashbind.vercel.app to view live BCH mainnet block height from Fulcrum and public Nostr relay reachability. Click **Generate Live Test Proof** to inspect a genuine dual-signed identity immediately.
+2. **Test Distinct Keys & Cross-Sign (`/bind`):** Click **Test Key-Reuse Rejection** to verify key separation, enter a handle, click **Cross-Sign Dual Proof**, and publish to public Nostr relays.
 3. **Anchor on BCH Mainnet (`/bind`):** Click **Connect Wallet** in the top bar to pair Paytaca, Selene, or Cashonize via WizardConnect (or fund a local BCH address with ~1,000 sats), then broadcast the 46-byte `OP_RETURN` anchor transaction and verify the txid on Blockchair.
 4. **Audit, Tamper-Test, Authenticate & Pay (`/verify`):** Toggle **Simulate 1-Byte Tamper** to observe cryptographic failure and automatic payment lock, restore the proof, audit the mainnet txid, run **Stateless Challenge Authentication**, and send a live BCH mainnet payment to the verified CashAddress.
 5. **Attestations & W3C DID (`/vault`):** Sign and publish a third-party Schnorr attestation, inspect key-rotation lineage, and download the `did:nostr` JSON-LD document.
@@ -137,14 +147,14 @@ console.log('Verified payment address:', bundle.payload.bchAddress, onChain.matc
 
 ---
 
-## Local Development & Verification
+## Local Development & Deployment
 
 ### Requirements
 
 - Node.js `>= 20` (tested on Node `22.x`)
 - npm
 
-### Install & Run
+### Run Locally
 
 ```bash
 git clone https://github.com/Pizzylee001/cashbind.git
@@ -159,11 +169,9 @@ Open `http://localhost:3000`.
 
 CashBind is pre-configured for zero-environment-variable deployment on **Vercel**:
 
-- `vercel.json` builds the Vite SPA into `dist/`, rewrites client-side routes (`/bind`, `/verify`, `/vault`) cleanly to `index.html`, and configures a 25-second timeout for Fulcrum failover queries.
-- Serverless API functions under `api/bch/` (`status.ts`, `address/[address].ts`, `tx/[txid].ts`, `scan-commitments/[address].ts`, `broadcast.ts`) share the exact same Fulcrum mainnet failover module (`src/server/fulcrum.ts`) used in local development.
-- No secrets or API keys are required in Vercel environment variables.
-
-Import `https://github.com/Pizzylee001/cashbind` in Vercel and click **Deploy**.
+- `vercel.json` builds the Vite SPA into `dist/`, preserves static `/deck.html` and `/deck-assets/*`, rewrites SPA routes (`/bind`, `/verify`, `/vault`) cleanly to `index.html`, and configures a 25-second timeout for Fulcrum failover queries.
+- Serverless API routes under `api/bch/` (`status.ts`, `address/[address].ts`, `tx/[txid].ts`, `scan-commitments/[address].ts`, `broadcast.ts`) share the exact same Fulcrum mainnet failover module (`src/server/fulcrum.ts`) used in local development.
+- Zero API keys or secrets are required in Vercel environment variables.
 
 ### Scripts
 
@@ -196,9 +204,11 @@ Import `https://github.com/Pizzylee001/cashbind` in Vercel and click **Deploy**.
 - [`ARCHITECTURE.md`](./ARCHITECTURE.md): Full system diagram, Fulcrum failover strategy, wallet signing modes, and threat model.
 - [`DESIGN.md`](./DESIGN.md): Visual design system tokens, typography, and component architecture.
 - [`docs/CashBind-BLAZE-2026-Deck.pptx`](./docs/CashBind-BLAZE-2026-Deck.pptx): Ready-to-import 6-slide widescreen PowerPoint / Google Slides presentation deck with live screenshots.
-- [`public/deck.html`](./public/deck.html): Interactive 16:9 web presentation deck served at `/deck.html` with keyboard navigation and PDF export.
-- [`WIDGET_FACTORY_PITCH.md`](./WIDGET_FACTORY_PITCH.md): Slide-by-slide presentation deck copy for BCH BLAZE 2026.
+- [`public/deck.html`](./public/deck.html): Interactive 16:9 web presentation deck served at https://cashbind.vercel.app/deck.html with keyboard navigation and PDF export.
+- [`WIDGET_FACTORY_PITCH.md`](./WIDGET_FACTORY_PITCH.md): Slide-by-slide presentation deck copy.
+
+---
 
 ## License
 
-MIT
+This project is licensed under the [MIT License](./LICENSE).
