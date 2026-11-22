@@ -12,7 +12,6 @@ import {
   ShieldCheck,
   X,
 } from '@phosphor-icons/react';
-import { BlazeBanner } from '../components/BlazeBanner';
 import { NotarySeal } from '../components/NotarySeal';
 import { fetchBchStatus, type BchNetworkStatus } from '../lib/bchApi';
 import { discoverBindingsFromRelays } from '../lib/nostrNetwork';
@@ -206,8 +205,6 @@ export function RegistryPage() {
 
   return (
     <div>
-      <BlazeBanner />
-
       <div className="mx-auto max-w-[1320px] px-4 py-8 sm:px-6 lg:px-8 lg:py-10">
         <div className="grid grid-cols-1 gap-8 lg:grid-cols-12 lg:items-start">
           {/* Left Sticky Rail (4 cols) */}
