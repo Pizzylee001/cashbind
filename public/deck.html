@@ -1,0 +1,798 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CashBind | BCH BLAZE 2026 Presentation Deck</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      /* === TOKENS === */
+      :root {
+        --canvas: #F2F5F7;
+        --surface: #FAFBFC;
+        --subtle: #E7EDF1;
+        --ink: #0E1722;
+        --ink-secondary: #445263;
+        --ink-muted: #5A697B;
+        --hairline: #CFD8E1;
+        --emerald: #0A7E4F;
+        --emerald-soft: #E6F4ED;
+        --danger: #B91C1C;
+        --danger-soft: #FEE2E2;
+        --stage-w: 1920px;
+        --stage-h: 1080px;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        background: #0E1722;
+        font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+        color: var(--ink);
+        -webkit-font-smoothing: antialiased;
+      }
+
+      /* === FIXED 16:9 VIEWPORT WRAPPER === */
+      .viewport {
+        position: fixed;
+        inset: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #0E1722;
+      }
+
+      .stage {
+        position: relative;
+        flex-shrink: 0;
+        width: var(--stage-w);
+        min-width: var(--stage-w);
+        height: var(--stage-h);
+        min-height: var(--stage-h);
+        transform-origin: center center;
+        overflow: hidden;
+        background-color: var(--canvas);
+        background-image:
+          radial-gradient(1200px 680px at 8% -6%, rgba(10, 126, 79, 0.08), transparent 68%),
+          radial-gradient(900px 560px at 94% 102%, rgba(14, 23, 34, 0.06), transparent 65%);
+        box-shadow: 0 28px 80px rgba(0, 0, 0, 0.45);
+      }
+
+      /* === SLIDE ENGINE (VISIBILITY + OPACITY, NEVER DISPLAY NONE) === */
+      .slide {
+        position: absolute;
+        inset: 0;
+        padding: 0;
+        visibility: hidden;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 280ms cubic-bezier(0.23, 1, 0.32, 1), visibility 280ms;
+      }
+
+      .slide.active {
+        visibility: visible;
+        opacity: 1;
+        pointer-events: auto;
+      }
+
+      .reveal {
+        opacity: 0;
+        transform: translateY(22px);
+        transition: opacity 360ms cubic-bezier(0.23, 1, 0.32, 1), transform 360ms cubic-bezier(0.23, 1, 0.32, 1);
+      }
+
+      .slide.visible .reveal {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .delay-1 { transition-delay: 70ms; }
+      .delay-2 { transition-delay: 140ms; }
+      .delay-3 { transition-delay: 210ms; }
+      .delay-4 { transition-delay: 280ms; }
+
+      /* === ARCHIVAL CHROME === */
+      .top-rule {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 10px;
+        background: var(--emerald);
+      }
+
+      .slide-header {
+        position: absolute;
+        top: 28px;
+        left: 84px;
+        right: 84px;
+        height: 68px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        border-bottom: 1.5px solid var(--hairline);
+      }
+
+      .brand {
+        font-family: 'Outfit', sans-serif;
+        font-size: 26px;
+        font-weight: 700;
+        letter-spacing: -0.02em;
+        color: var(--ink);
+      }
+
+      .section-name {
+        font-size: 18px;
+        font-weight: 500;
+        color: var(--ink-muted);
+      }
+
+      .page-num {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 18px;
+        font-weight: 600;
+        color: var(--emerald);
+      }
+
+      .slide-body {
+        position: absolute;
+        top: 122px;
+        left: 84px;
+        right: 84px;
+        bottom: 92px;
+      }
+
+      .slide-footer {
+        position: absolute;
+        left: 84px;
+        right: 84px;
+        bottom: 24px;
+        height: 46px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        border-top: 1px solid var(--hairline);
+        font-size: 15px;
+        color: var(--ink-muted);
+      }
+
+      .mono {
+        font-family: 'JetBrains Mono', monospace;
+      }
+
+      /* === TYPOGRAPHY & CARDS === */
+      h1 {
+        margin: 0;
+        font-family: 'Outfit', sans-serif;
+        font-size: 82px;
+        line-height: 1.02;
+        font-weight: 800;
+        letter-spacing: -0.03em;
+        color: var(--ink);
+      }
+
+      h2 {
+        margin: 0 0 28px 0;
+        font-family: 'Outfit', sans-serif;
+        font-size: 46px;
+        line-height: 1.12;
+        font-weight: 700;
+        letter-spacing: -0.025em;
+        color: var(--ink);
+      }
+
+      h3 {
+        margin: 0 0 10px 0;
+        font-family: 'Outfit', sans-serif;
+        font-size: 24px;
+        font-weight: 700;
+        color: var(--ink);
+      }
+
+      .lead {
+        margin: 18px 0 0 0;
+        font-family: 'Outfit', sans-serif;
+        font-size: 36px;
+        line-height: 1.2;
+        font-weight: 700;
+        color: var(--emerald);
+      }
+
+      .copy {
+        margin: 24px 0 0 0;
+        font-size: 22px;
+        line-height: 1.55;
+        color: var(--ink-secondary);
+      }
+
+      .split-2 {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 44px;
+        height: 100%;
+        align-items: start;
+      }
+
+      .split-cover {
+        display: grid;
+        grid-template-columns: 700px 1fr;
+        gap: 52px;
+        height: 100%;
+        align-items: center;
+      }
+
+      .split-visual-left {
+        display: grid;
+        grid-template-columns: 900px 1fr;
+        gap: 44px;
+        height: calc(100% - 86px);
+        align-items: center;
+      }
+
+      .split-visual-right {
+        display: grid;
+        grid-template-columns: 1fr 920px;
+        gap: 44px;
+        height: calc(100% - 86px);
+        align-items: center;
+      }
+
+      .card {
+        background: var(--surface);
+        border: 1.5px solid var(--hairline);
+        border-radius: 10px;
+        padding: 28px 32px;
+      }
+
+      .card-emerald {
+        background: var(--emerald-soft);
+        border: 1.5px solid var(--emerald);
+        border-radius: 10px;
+        padding: 36px 40px;
+      }
+
+      .stack {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+      }
+
+      .item-card {
+        background: var(--surface);
+        border: 1.5px solid var(--hairline);
+        border-radius: 8px;
+        padding: 17px 22px;
+      }
+
+      .item-card h3 {
+        font-size: 21px;
+        margin-bottom: 5px;
+      }
+
+      .item-card p {
+        margin: 0;
+        font-size: 17.5px;
+        line-height: 1.42;
+        color: var(--ink-secondary);
+      }
+
+      .shot-frame {
+        background: var(--surface);
+        border: 1.5px solid var(--hairline);
+        border-radius: 10px;
+        padding: 14px;
+        max-height: 740px;
+        box-shadow: 0 18px 42px -18px rgba(14, 23, 34, 0.16);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+      }
+
+      .shot-frame img {
+        display: block;
+        max-width: 100%;
+        max-height: 710px;
+        width: auto;
+        height: auto;
+        object-fit: contain;
+        border-radius: 4px;
+      }
+
+      .meta-grid {
+        margin-top: 32px;
+        display: grid;
+        grid-template-columns: 170px 1fr;
+        row-gap: 14px;
+        column-gap: 16px;
+        font-size: 19px;
+      }
+
+      .meta-k {
+        font-weight: 700;
+        color: var(--ink);
+      }
+
+      .meta-v {
+        color: var(--ink-secondary);
+      }
+
+      .meta-link {
+        color: var(--emerald);
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 17px;
+        text-decoration: none;
+      }
+
+      /* === HUD CONTROLS OUTSIDE STAGE === */
+      .hud {
+        position: fixed;
+        left: 50%;
+        bottom: clamp(8px, 1.2vh, 16px);
+        transform: translateX(-50%);
+        z-index: 40;
+        display: flex;
+        align-items: center;
+        flex-wrap: nowrap;
+        white-space: nowrap;
+        max-width: calc(100vw - 16px);
+        overflow-x: auto;
+        gap: 6px;
+        background: rgba(14, 23, 34, 0.90);
+        border: 1px solid rgba(255, 255, 255, 0.14);
+        border-radius: 6px;
+        padding: 5px 8px;
+        color: #FAFBFC;
+        font-size: 12.5px;
+      }
+
+      .hud button,
+      .hud a {
+        appearance: none;
+        flex-shrink: 0;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        background: rgba(255, 255, 255, 0.08);
+        color: #FAFBFC;
+        border-radius: 4px;
+        padding: 5px 9px;
+        font: inherit;
+        font-weight: 600;
+        cursor: pointer;
+        text-decoration: none;
+      }
+
+      .hud button:hover,
+      .hud a:hover {
+        background: var(--emerald);
+        border-color: var(--emerald);
+      }
+
+      .hud-count {
+        flex-shrink: 0;
+        font-family: 'JetBrains Mono', monospace;
+        padding: 0 6px;
+        color: #CFD8E1;
+      }
+
+      /* === REDUCED MOTION === */
+      @media (prefers-reduced-motion: reduce) {
+        .slide,
+        .reveal {
+          transition: none !important;
+          transform: none !important;
+        }
+      }
+
+      /* === PRINT / PDF EXPORT === */
+      @media print {
+        @page {
+          size: 1920px 1080px;
+          margin: 0;
+        }
+        html,
+        body {
+          overflow: visible;
+          background: #FFFFFF;
+        }
+        .hud {
+          display: none !important;
+        }
+        .viewport {
+          position: static;
+          display: block;
+          background: #FFFFFF;
+        }
+        .stage {
+          transform: none !important;
+          width: 1920px;
+          height: auto;
+          box-shadow: none;
+        }
+        .slide {
+          position: relative !important;
+          width: 1920px;
+          height: 1080px;
+          visibility: visible !important;
+          opacity: 1 !important;
+          pointer-events: auto !important;
+          page-break-after: always;
+          break-after: page;
+        }
+        .reveal {
+          opacity: 1 !important;
+          transform: none !important;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="viewport">
+      <div class="stage" id="stage">
+        <!-- === SLIDE 1: COVER === -->
+        <section class="slide active visible" data-slide="1">
+          <div class="top-rule"></div>
+          <header class="slide-header">
+            <span class="brand">CashBind</span>
+            <span class="section-name">BCH BLAZE 2026 Project Presentation</span>
+            <span class="page-num">01 / 06</span>
+          </header>
+          <div class="slide-body">
+            <div class="split-cover">
+              <div>
+                <h1 class="reveal">CashBind</h1>
+                <p class="lead reveal delay-1">Verify and pay Nostr identities on Bitcoin Cash</p>
+                <p class="copy reveal delay-2">
+                  A self-sovereign cryptographic notary linking distinct Bitcoin Cash mainnet
+                  payment keys and Nostr social identities with zero central registry,
+                  <span class="mono">OP_RETURN</span> anchoring, and native WizardConnect payments.
+                </p>
+                <div class="card meta-grid reveal delay-3">
+                  <span class="meta-k">Builder</span>
+                  <span class="meta-v">Pizzy Lee (pizzylillee@gmail.com)</span>
+                  <span class="meta-k">Repository</span>
+                  <a class="meta-link" href="https://github.com/Pizzylee001/cashbind" target="_blank" rel="noopener">github.com/Pizzylee001/cashbind</a>
+                  <span class="meta-k">Competition</span>
+                  <span class="meta-v">Mainnet Track + Paytaca Identity Bounty</span>
+                  <span class="meta-k">Infrastructure</span>
+                  <span class="meta-v">BCH Mainnet Fulcrum + Public Nostr Relays</span>
+                </div>
+              </div>
+              <div class="shot-frame reveal delay-2" style="max-height: 760px;">
+                <img src="./deck-assets/01-registry-home.png" alt="CashBind Registry Home Screen" />
+              </div>
+            </div>
+          </div>
+          <footer class="slide-footer">
+            <span>BCH BLAZE 2026  |  Mainnet &amp; Paytaca Identity</span>
+            <span class="mono">github.com/Pizzylee001/cashbind</span>
+          </footer>
+        </section>
+
+        <!-- === SLIDE 2: THE STORY === -->
+        <section class="slide" data-slide="2">
+          <div class="top-rule"></div>
+          <header class="slide-header">
+            <span class="brand">CashBind</span>
+            <span class="section-name">The Story of CashBind</span>
+            <span class="page-num">02 / 06</span>
+          </header>
+          <div class="slide-body">
+            <h2 class="reveal">Why Nostr Needs a Cryptographic BCH Bridge</h2>
+            <div class="split-2" style="height: calc(100% - 88px);">
+              <div class="card reveal delay-1" style="height: 100%; padding: 38px 42px;">
+                <h3 style="font-size: 30px; color: var(--danger); margin-bottom: 26px;">The Gap Today</h3>
+                <div class="stack" style="gap: 28px;">
+                  <div>
+                    <h3>1. Fragile Payment Trust</h3>
+                    <p style="margin: 0; font-size: 21px; line-height: 1.5; color: var(--ink-secondary);">
+                      Merchants and creators on Nostr hold portable <span class="mono">npub</span>
+                      identities, yet accepting BCH still forces payers to trust bio screenshots or
+                      centralized handle directories.
+                    </p>
+                  </div>
+                  <div>
+                    <h3>2. Registrar &amp; Impersonation Risk</h3>
+                    <p style="margin: 0; font-size: 21px; line-height: 1.5; color: var(--ink-secondary);">
+                      Centralized payment handles can be hijacked, censored, or silently swapped
+                      without cryptographic proof of ownership.
+                    </p>
+                  </div>
+                  <div>
+                    <h3>3. Dangerous Key Reuse</h3>
+                    <p style="margin: 0; font-size: 21px; line-height: 1.5; color: var(--ink-secondary);">
+                      Reusing a Bitcoin Cash custody key inside social Nostr clients puts real
+                      mainnet funds at risk if any social app leaks keys.
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="card-emerald reveal delay-2" style="height: 100%;">
+                <h3 style="font-size: 30px; color: var(--emerald); margin-bottom: 26px;">The CashBind Solution</h3>
+                <div class="stack" style="gap: 28px;">
+                  <div>
+                    <h3>1. Dual-Key Cross-Signing</h3>
+                    <p style="margin: 0; font-size: 21px; line-height: 1.5; color: var(--ink-secondary);">
+                      A BCH <span class="mono">secp256k1</span> key (ECDSA) and a distinct Nostr key
+                      (BIP-340 Schnorr) both sign the exact same canonical JSON binding payload.
+                    </p>
+                  </div>
+                  <div>
+                    <h3>2. Immutable BCH Mainnet Anchor</h3>
+                    <p style="margin: 0; font-size: 21px; line-height: 1.5; color: var(--ink-secondary);">
+                      A compact 46-byte <span class="mono">OP_RETURN CASHBIND v1 &lt;sha256&gt;</span>
+                      output anchors the digest permanently on BCH mainnet for under $0.01.
+                    </p>
+                  </div>
+                  <div>
+                    <h3>3. Zero-Trust Verify Before Pay</h3>
+                    <p style="margin: 0; font-size: 21px; line-height: 1.5; color: var(--ink-secondary);">
+                      Any wallet or dApp resolves <span class="mono">npub -&gt; verified CashAddress</span>
+                      directly from public Nostr relays and Fulcrum nodes with zero middlemen.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <footer class="slide-footer">
+            <span>BCH BLAZE 2026  |  Mainnet &amp; Paytaca Identity</span>
+            <span class="mono">github.com/Pizzylee001/cashbind</span>
+          </footer>
+        </section>
+
+        <!-- === SLIDE 3: BENEFITS & SECURITY === -->
+        <section class="slide" data-slide="3">
+          <div class="top-rule"></div>
+          <header class="slide-header">
+            <span class="brand">CashBind</span>
+            <span class="section-name">Benefits &amp; Cryptographic Safeguards</span>
+            <span class="page-num">03 / 06</span>
+          </header>
+          <div class="slide-body">
+            <h2 class="reveal">Zero-Trust Protection Built Into Every Step</h2>
+            <div class="split-visual-right">
+              <div class="stack reveal delay-1">
+                <div class="item-card">
+                  <h3>Strict Key Separation</h3>
+                  <p>Protocol rejects any binding where BCH and Nostr keys share the same secp256k1 x-coordinate.</p>
+                </div>
+                <div class="item-card">
+                  <h3>1-Byte Tamper Lock</h3>
+                  <p>Mutating even one character breaks the Dual-Key Notary Seal and locks BCH mainnet payment execution.</p>
+                </div>
+                <div class="item-card">
+                  <h3>Zero Central Database</h3>
+                  <p>Proofs publish directly to 3 independent public Nostr relays and verify completely offline.</p>
+                </div>
+                <div class="item-card">
+                  <h3>Stateless Challenge Auth</h3>
+                  <p>Expiring nonces authenticate users via bound Nostr (NIP-42) or BCH signatures with no passwords.</p>
+                </div>
+                <div class="item-card">
+                  <h3>Key Rotation &amp; W3C DID</h3>
+                  <p>Unbroken <span class="mono">prevBindingHash</span> rotation chains, third-party Schnorr attestations, and <span class="mono">did:nostr</span> export.</p>
+                </div>
+              </div>
+              <div class="shot-frame reveal delay-2">
+                <img src="./deck-assets/04-tamper-protection.png" alt="CashBind 1-Byte Tamper Protection" />
+              </div>
+            </div>
+          </div>
+          <footer class="slide-footer">
+            <span>BCH BLAZE 2026  |  Mainnet &amp; Paytaca Identity</span>
+            <span class="mono">github.com/Pizzylee001/cashbind</span>
+          </footer>
+        </section>
+
+        <!-- === SLIDE 4: BCH MAINNET USAGE & WIZARDCONNECT === -->
+        <section class="slide" data-slide="4">
+          <div class="top-rule"></div>
+          <header class="slide-header">
+            <span class="brand">CashBind</span>
+            <span class="section-name">BCH Mainnet Usage &amp; WizardConnect</span>
+            <span class="page-num">04 / 06</span>
+          </header>
+          <div class="slide-body">
+            <h2 class="reveal">Real Bitcoin Cash Mainnet Transactions, Non-Custodially</h2>
+            <div class="split-visual-left">
+              <div class="shot-frame reveal delay-1">
+                <img src="./deck-assets/02-bind-anchor.png" alt="CashBind Bind and Anchor Studio" />
+              </div>
+              <div class="stack reveal delay-2" style="gap: 22px;">
+                <div class="item-card">
+                  <h3 style="color: var(--emerald);">Native WizardConnect Pairing</h3>
+                  <p>Pairs via QR/URI with Paytaca, Selene, and Cashonize to sign <span class="mono">OP_RETURN</span> anchors and direct payments without exposing private keys.</p>
+                </div>
+                <div class="item-card">
+                  <h3 style="color: var(--emerald);">46-Byte OP_RETURN Commitment</h3>
+                  <p>Builds real <span class="mono">SIGHASH_ALL | SIGHASH_FORKID</span> transactions enforcing the 546-satoshi dust limit and dynamic miner fees.</p>
+                </div>
+                <div class="item-card">
+                  <h3 style="color: var(--emerald);">Direct Verified BCH Payments</h3>
+                  <p>Resolves any Nostr identity to its verified CashAddress, generates BIP-21 URIs, and broadcasts mainnet payouts with Blockchair links.</p>
+                </div>
+                <div class="item-card">
+                  <h3 style="color: var(--emerald);">Multi-Node Fulcrum Failover</h3>
+                  <p>Serverless <span class="mono">/api/bch/*</span> proxy fails over across <span class="mono">bch.imaginary.cash</span>, <span class="mono">bch.loping.net</span>, and <span class="mono">fulcrum.greyh.at</span>.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <footer class="slide-footer">
+            <span>BCH BLAZE 2026  |  Mainnet &amp; Paytaca Identity</span>
+            <span class="mono">github.com/Pizzylee001/cashbind</span>
+          </footer>
+        </section>
+
+        <!-- === SLIDE 5: BUSINESS MODEL & VISION === -->
+        <section class="slide" data-slide="5">
+          <div class="top-rule"></div>
+          <header class="slide-header">
+            <span class="brand">CashBind</span>
+            <span class="section-name">Business Model, Ecosystem &amp; Roadmap</span>
+            <span class="page-num">05 / 06</span>
+          </header>
+          <div class="slide-body">
+            <h2 class="reveal">Turning Decentralized Identity Into BCH Commerce</h2>
+            <div class="split-visual-right">
+              <div class="stack reveal delay-1" style="gap: 22px;">
+                <div class="item-card">
+                  <h3>Verified Merchant Payment Handles</h3>
+                  <p>BCH storefronts and creators publish tamper-proof Nostr payment handles and BIP-21 checkout links with zero recurring registrar fees.</p>
+                </div>
+                <div class="item-card">
+                  <h3>Paid Attestation Marketplaces</h3>
+                  <p>Merchant guilds, auditors, and regional BCH directories issue paid Schnorr attestations (e.g., Verified BCH Merchant) settled directly in BCH.</p>
+                </div>
+                <div class="item-card">
+                  <h3>Drop-In Wallet &amp; dApp SDK</h3>
+                  <p>TypeScript verification module lets Paytaca, Selene, Cashonize, and BCH apps resolve <span class="mono">npub -&gt; verified CashAddress</span> offline.</p>
+                </div>
+                <div class="item-card">
+                  <h3>Next Roadmap Priorities</h3>
+                  <p>Publish <span class="mono">@cashbind/sdk</span> to npm, launch CashTokens membership attestations, and onboard global BCH merchant communities.</p>
+                </div>
+              </div>
+              <div class="shot-frame reveal delay-2">
+                <img src="./deck-assets/05-vault-attestations-did.png" alt="CashBind Vault Attestations and W3C DID" />
+              </div>
+            </div>
+          </div>
+          <footer class="slide-footer">
+            <span>BCH BLAZE 2026  |  Mainnet &amp; Paytaca Identity</span>
+            <span class="mono">github.com/Pizzylee001/cashbind</span>
+          </footer>
+        </section>
+
+        <!-- === SLIDE 6: THANK YOU === -->
+        <section class="slide" data-slide="6">
+          <div class="top-rule"></div>
+          <header class="slide-header">
+            <span class="brand">CashBind</span>
+            <span class="section-name">Try CashBind Live</span>
+            <span class="page-num">06 / 06</span>
+          </header>
+          <div class="slide-body">
+            <div class="split-cover">
+              <div>
+                <h1 class="reveal">Thank You!</h1>
+                <p class="lead reveal delay-1">Verify a Nostr identity and pay on BCH mainnet in under 2 minutes.</p>
+                <div class="card reveal delay-2" style="margin-top: 34px; padding: 34px 36px;">
+                  <div class="stack" style="gap: 22px;">
+                    <div>
+                      <div style="font-size: 16px; font-weight: 700; color: var(--ink-muted);">Live Application</div>
+                      <a class="meta-link" href="/" style="font-size: 20px;">Open CashBind App -&gt;</a>
+                    </div>
+                    <div>
+                      <div style="font-size: 16px; font-weight: 700; color: var(--ink-muted);">Source Code, Specs &amp; Unit Tests (10/10 Passing)</div>
+                      <a class="meta-link" href="https://github.com/Pizzylee001/cashbind" target="_blank" rel="noopener" style="font-size: 19px;">https://github.com/Pizzylee001/cashbind</a>
+                    </div>
+                    <div>
+                      <div style="font-size: 16px; font-weight: 700; color: var(--ink-muted);">Builder &amp; Contact</div>
+                      <div style="font-size: 20px; color: var(--ink-secondary); margin-top: 4px;">Pizzy Lee (pizzylillee@gmail.com)</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="shot-frame reveal delay-2" style="max-height: 760px;">
+                <img src="./deck-assets/03-verify-pay.png" alt="CashBind Verify and Pay Desk" />
+              </div>
+            </div>
+          </div>
+          <footer class="slide-footer">
+            <span>BCH BLAZE 2026  |  Mainnet &amp; Paytaca Identity</span>
+            <span class="mono">github.com/Pizzylee001/cashbind</span>
+          </footer>
+        </section>
+      </div>
+    </div>
+
+    <div class="hud" role="toolbar" aria-label="Presentation controls">
+      <a href="/">Back to App</a>
+      <button type="button" id="prevBtn" aria-label="Previous slide">Prev</button>
+      <span class="hud-count" id="hudCount">1 / 6</span>
+      <button type="button" id="nextBtn" aria-label="Next slide">Next</button>
+      <button type="button" id="editBtn" title="Press E to edit text inline">Edit (E)</button>
+      <button type="button" id="printBtn" title="Export deck to PDF">PDF</button>
+    </div>
+
+    <script>
+      /* === FIXED 16:9 STAGE SCALING & NAVIGATION === */
+      const stage = document.getElementById('stage');
+      const slides = Array.from(document.querySelectorAll('.slide'));
+      const hudCount = document.getElementById('hudCount');
+      let current = 0;
+      let editing = false;
+
+      function fitStage() {
+        const scale = Math.min(window.innerWidth / 1920, window.innerHeight / 1080);
+        stage.style.transform = `scale(${scale})`;
+      }
+
+      function showSlide(index) {
+        current = (index + slides.length) % slides.length;
+        slides.forEach((el, idx) => {
+          const isTarget = idx === current;
+          el.classList.toggle('active', isTarget);
+          el.classList.toggle('visible', isTarget);
+        });
+        hudCount.textContent = `${current + 1} / ${slides.length}`;
+      }
+
+      function toggleEdit() {
+        editing = !editing;
+        document.body.contentEditable = editing ? 'true' : 'false';
+        document.getElementById('editBtn').textContent = editing ? 'Editing ON' : 'Edit (E)';
+      }
+
+      document.getElementById('prevBtn').addEventListener('click', () => showSlide(current - 1));
+      document.getElementById('nextBtn').addEventListener('click', () => showSlide(current + 1));
+      document.getElementById('editBtn').addEventListener('click', toggleEdit);
+      document.getElementById('printBtn').addEventListener('click', () => window.print());
+
+      window.addEventListener('keydown', (e) => {
+        if (editing && e.key !== 'Escape') return;
+        if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') {
+          e.preventDefault();
+          showSlide(current + 1);
+        } else if (e.key === 'ArrowLeft' || e.key === 'PageUp') {
+          e.preventDefault();
+          showSlide(current - 1);
+        } else if (e.key === 'e' || e.key === 'E') {
+          toggleEdit();
+        } else if (e.key === 'Escape' && editing) {
+          toggleEdit();
+        }
+      });
+
+      let touchStartX = 0;
+      window.addEventListener('touchstart', (e) => {
+        touchStartX = e.changedTouches[0].clientX;
+      }, { passive: true });
+      window.addEventListener('touchend', (e) => {
+        const dx = e.changedTouches[0].clientX - touchStartX;
+        if (Math.abs(dx) > 48) {
+          showSlide(dx < 0 ? current + 1 : current - 1);
+        }
+      }, { passive: true });
+
+      window.addEventListener('resize', fitStage);
+      fitStage();
+      showSlide(0);
+    </script>
+  </body>
+</html>
