@@ -10,7 +10,7 @@
   },
   "rewrites": [
     {
-      "source": "/((?!api/|deck\\.html|deck-assets/|CashBind-Demo-Video\\.mp4).*)",
+      "source": "/((?!api/|deck\\.html|deck-assets/|CashBind-Demo-Video\\.mp4|favicon\\.svg|cashbind-logo\\.png|apple-touch-icon\\.png).*)",
       "destination": "/index.html"
     }
   ]
