@@ -7,7 +7,7 @@ Ready-to-paste copy adapted directly from the official BCH BLAZE 2026 Project Pr
 ## Slide 1: Cover
 
 - **Project Name:** CashBind
-- **Website / App URL:** `https://ais-pre-vimv666ydugm5ma6iv5mvi-1004805565289.europe-west2.run.app`
+- **Website / App URL:** `https://cashbind.vercel.app`
 - **Twitter / X / Nostr:** *(Paste your handle / npub)*
 - **Telegram / Contact:** Pizzy Lee (`pizzylillee@gmail.com`)
 - **Tagline:** Verify and pay Nostr identities on Bitcoin Cash
@@ -57,6 +57,6 @@ CashBind turns decentralized identity into real Bitcoin Cash commerce infrastruc
 
 ## Slide 6: Thank You
 
-- **Try CashBind Live:** `https://ais-pre-vimv666ydugm5ma6iv5mvi-1004805565289.europe-west2.run.app`
+- **Try CashBind Live:** `https://cashbind.vercel.app`
 - **Source Code & Protocol Spec:** `https://github.com/Pizzylee001/cashbind`
 - **Support with EMBER2026 CashTokens:** *(Paste your `bitcoincash:z...` address)*
