@@ -2,8 +2,6 @@
 
 **Self-sovereign cryptographic identity bridge between Bitcoin Cash (BCH) mainnet and Nostr.**
 
-Built for **BCH BLAZE 2026** (Mainnet Track and the Paytaca Decentralized Identity Bounty).
-
 - **Live App:** https://cashbind.vercel.app
 - **Interactive Presentation Deck:** https://cashbind.vercel.app/deck.html
 - **Google Slides / PowerPoint Deck (`.pptx`):** [`docs/CashBind-BLAZE-2026-Deck.pptx`](./docs/CashBind-BLAZE-2026-Deck.pptx)
@@ -212,3 +210,7 @@ CashBind is pre-configured for zero-environment-variable deployment on **Vercel*
 ## License
 
 This project is licensed under the [MIT License](./LICENSE).
+
+---
+
+Built for **BCH BLAZE 2026** (Mainnet Track and the Paytaca Decentralized Identity Bounty).
