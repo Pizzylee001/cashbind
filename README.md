@@ -5,6 +5,8 @@
 Built for **BCH BLAZE 2026** (Mainnet Track and the Paytaca Decentralized Identity Bounty).
 
 - **Live App:** https://ais-pre-vimv666ydugm5ma6iv5mvi-1004805565289.europe-west2.run.app
+- **Live Presentation Deck:** [`/deck.html`](./public/deck.html) (hosted at `/deck.html` on deployment)
+- **Google Slides Importable Deck (`.pptx`):** [`docs/CashBind-BLAZE-2026-Deck.pptx`](./docs/CashBind-BLAZE-2026-Deck.pptx)
 - **Source Repository:** https://github.com/Pizzylee001/cashbind
 - **Protocol Specification:** [`PROTOCOL.md`](./PROTOCOL.md)
 - **Architecture & Threat Model:** [`ARCHITECTURE.md`](./ARCHITECTURE.md)
@@ -193,6 +195,8 @@ Import `https://github.com/Pizzylee001/cashbind` in Vercel and click **Deploy**.
 - [`PROTOCOL.md`](./PROTOCOL.md): Canonical JSON schema, signature rules, NIP-78 tag layout, and 46-byte `OP_RETURN` byte specification.
 - [`ARCHITECTURE.md`](./ARCHITECTURE.md): Full system diagram, Fulcrum failover strategy, wallet signing modes, and threat model.
 - [`DESIGN.md`](./DESIGN.md): Visual design system tokens, typography, and component architecture.
+- [`docs/CashBind-BLAZE-2026-Deck.pptx`](./docs/CashBind-BLAZE-2026-Deck.pptx): Ready-to-import 6-slide widescreen PowerPoint / Google Slides presentation deck with live screenshots.
+- [`public/deck.html`](./public/deck.html): Interactive 16:9 web presentation deck served at `/deck.html` with keyboard navigation and PDF export.
 - [`WIDGET_FACTORY_PITCH.md`](./WIDGET_FACTORY_PITCH.md): Slide-by-slide presentation deck copy for BCH BLAZE 2026.
 
 ## License
