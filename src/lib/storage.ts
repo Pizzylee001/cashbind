@@ -11,7 +11,7 @@ export interface BlazeBannerConfig {
 }
 
 export const DEFAULT_BLAZE_BANNER: BlazeBannerConfig = {
-  presentationUrl: 'https://bchblaze.cash/',
+  presentationUrl: '/deck.html',
   repoUrl: 'https://github.com/Pizzylee001/cashbind',
   emberCashTokensAddress: 'bitcoincash:z_replace_with_your_cashtokens_address',
 };

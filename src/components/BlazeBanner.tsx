@@ -146,11 +146,11 @@ export function BlazeBanner() {
               </label>
               <input
                 id="blaze-deck-url"
-                type="url"
+                type="text"
                 value={draft.presentationUrl}
                 onChange={(e) => setDraft({ ...draft, presentationUrl: e.target.value })}
                 spellCheck={false}
-                placeholder="https://docs.google.com/presentation/…"
+                placeholder="/deck.html or https://docs.google.com/presentation/…"
                 className="w-full h-10 px-3 text-sm bg-surface border border-hairline rounded-[4px] text-ink focus:border-emerald-notary"
               />
             </div>
