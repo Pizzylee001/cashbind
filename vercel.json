@@ -10,7 +10,7 @@
   },
   "rewrites": [
     {
-      "source": "/((?!api/|deck\\.html|deck-assets/).*)",
+      "source": "/((?!api/|deck\\.html|deck-assets/|CashBind-Demo-Video\\.mp4).*)",
       "destination": "/index.html"
     }
   ]
